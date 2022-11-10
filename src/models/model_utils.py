@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer as CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
 import nltk
+from tqdm import tqdm
 from sklearn.linear_model import LogisticRegression as LR
 from nltk.stem import WordNetLemmatizer
 from sklearn.model_selection import cross_validate
@@ -23,13 +24,13 @@ class DenseTransformer(TransformerMixin):
 
 
 class BOW_ensemble():
-    def __init__(self,classifier,vectorizer,scale=True,estimator_grps=10,cv_folds=10):
+    def __init__(self,classifier,vectorizer,scale=True,estimator_grps=5,cv_folds=5):
 
         self.vectorizer = vectorizer
         self.clf = classifier
-        pipes = [('vectorizer', self.vectorizer),('sparse_to_dense', DenseTransformer())]
+        pipes = [('vectorizer', self.vectorizer)]
         if scale:
-            pipes.append(('scaler',StandardScaler()))
+            pipes.extend([('sparse_to_dense', DenseTransformer()),('scaler',StandardScaler())])
         pipes.append(('estimator', self.clf))
         
         self.pipeline = Pipeline(pipes)
@@ -42,12 +43,12 @@ class BOW_ensemble():
         precision = []
         recall = []
         pipelines = []
-        for i in range(self.estimator_grps):
+        for i in tqdm(range(self.estimator_grps)):
             np.random.shuffle(X)
-            scores = cross_validate(self.pipeline, X, y, cv = self.cv_folds,scoring=['precision','recall'],return_estimator=True)
+            scores = cross_validate(self.pipeline, X, y, cv = self.cv_folds,scoring=['precision_macro','recall_macro'],return_estimator=True)
             pipelines.extend(scores['estimator'])
-            precision.append(np.mean(scores['test_precision']))
-            recall.append(np.mean(scores['test_recall']))
+            precision.append(np.mean(scores['test_precision_macro']))
+            recall.append(np.mean(scores['test_recall_macro']))
         
         self.estimators = pipelines
         return np.mean(precision), np.mean(recall)

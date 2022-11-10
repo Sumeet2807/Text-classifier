@@ -10,10 +10,10 @@ class Text_reducer():
     def __call__(self,s): 
         red_text = ''   
         if len(self.core_words):
-            match_pattern = r'(' + re.escape(self.core_words[0])
+            match_pattern = r'(\b' + re.escape(self.core_words[0])
             for i in range(1,len(self.core_words)):
-                match_pattern += (r'|' + re.escape(self.core_words[i]))
-            match_pattern += r')'
+                match_pattern += (r'\b|\b' + re.escape(self.core_words[i]))
+            match_pattern += r'\b)'
             sents = re.split(';|\.', s)
             for sent in sents:
                 if re.findall(match_pattern, sent):            
