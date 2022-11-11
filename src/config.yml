@@ -1,0 +1,60 @@
+---
+data:
+  train:
+    source:
+      - 'csv'
+      - '../data/twitter_training.csv'
+      - ',' 
+    text-column: 3
+    label-column: 2
+  test: null
+    # source:
+    #   - 'CSV'
+    #   - 'filepath'
+    #   - ','
+    # text-column: null
+    # label-column: null
+model:
+  class: 'BOW.Linear_ensemble'
+  args:
+    vectorizer-type: 'tfidf'
+    vectorizer-max-features: 1000
+    vectorizer-ngrams: 
+      - 1
+      - 1
+    clf-penalty: 'none'
+    clf-max-iter: 10000
+    clf-solver: 'lbfgs'
+    ensemble-groups: 5
+    ensemble-folds: 5
+    scale-inputs: true
+
+model-save-path: null
+    
+
+preprocessing:
+  remove-garbage-words: true
+  remove-numbers: true
+  remove-stopwords: false
+  lemmatize: false
+  force-lower-case: true
+  core-words: null
+
+doe: "a deer, a female deer"
+ray: "a drop of golden sun"
+pi: 3.14159
+xmas: true
+french-hens: 3
+calling-birds:
+  - huey
+  - dewey
+  - louie
+  - fred
+xmas-fifth-day:
+  calling-birds: four
+  french-hens: 3
+  golden-rings: 5
+  partridges:
+    count: 1
+    location: "a pear tree"
+  turtle-doves: two

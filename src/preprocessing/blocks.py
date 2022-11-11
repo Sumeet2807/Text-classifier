@@ -2,11 +2,18 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction.text import CountVectorizer as CountVectorizer
 from nltk.stem import WordNetLemmatizer
+import nltk
 import re
 
+nltk.download('wordnet')
+
 class Text_reducer():
-    def __init__(self,core_words=[],remove_garbage=True,remove_numbers=True):
-        self.core_words = core_words
+    def __init__(self,core_words=None,remove_garbage=True,remove_numbers=True):
+
+        if core_words is not None:
+            self.core_words = core_words
+        else:
+            self.core_words = []
         self.remove_garbage = remove_garbage
         self.remove_numbers = remove_numbers
     def __call__(self,x):   
@@ -33,8 +40,7 @@ class Text_reducer():
         return x
 
 class Remove_stop_words_lemmatize():
-    def __init__(self,force_lower_case=False,reduce_text=None,remove_stop_words=True, lemmatize=True):
-        self.reduce_text = reduce_text
+    def __init__(self,force_lower_case=False,remove_stop_words=True, lemmatize=True):
         self.remove_stop_words = remove_stop_words
         self.lemmatize = lemmatize
         self.force_lower_case = force_lower_case
