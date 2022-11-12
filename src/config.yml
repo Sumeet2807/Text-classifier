@@ -25,8 +25,8 @@ model:
     clf-penalty: 'none'
     clf-max-iter: 10000
     clf-solver: 'lbfgs'
-    ensemble-groups: 5
-    ensemble-folds: 5
+    ensemble-groups: 20
+    ensemble-folds: 8
     scale-inputs: true
 
 model-save-path: null

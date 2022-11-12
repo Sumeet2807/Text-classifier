@@ -17,7 +17,7 @@ class DenseTransformer(TransformerMixin):
         return self
 
     def transform(self, X, y=None, **fit_params):
-        return X.todense()
+        return X.toarray()
 
 
 class BOW_ensemble():
@@ -41,8 +41,9 @@ class BOW_ensemble():
         recall = []
         pipelines = []
         for i in tqdm(range(self.estimator_grps)):
-            np.random.shuffle(X)
-            scores = cross_validate(self.pipeline, X, y, cv = self.cv_folds,scoring=['precision_macro','recall_macro'],return_estimator=True)
+            indices = np.arange(0,len(X))
+            np.random.shuffle(indices)
+            scores = cross_validate(self.pipeline, X[indices], y[indices], cv = self.cv_folds,scoring=['precision_macro','recall_macro'],return_estimator=True)
             pipelines.extend(scores['estimator'])
             precision.append(np.mean(scores['test_precision_macro']))
             recall.append(np.mean(scores['test_recall_macro']))
