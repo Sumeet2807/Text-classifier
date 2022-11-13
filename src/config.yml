@@ -1,10 +1,10 @@
 ---
 data:
   train:
-    source:
-      - 'csv'
-      - '../data/twitter_training.csv'
-      - ',' 
+    source: 'csv'
+    args:
+      filepath: '../data/twitter_training.csv'
+      seperator: ','
     text-column: 3
     label-column: 2
   test: null
@@ -16,20 +16,35 @@ data:
     # label-column: null
 model:
   class: 'BOW.Linear_ensemble'
+  save-dir: '../export/'
   args:
     vectorizer-type: 'tfidf'
-    vectorizer-max-features: 1000
+    vectorizer-max-features: 10000
     vectorizer-ngrams: 
-      - 1
-      - 1
+      - 1 #min
+      - 1 #max
     clf-penalty: 'none'
     clf-max-iter: 10000
     clf-solver: 'lbfgs'
-    ensemble-groups: 20
+    ensemble-groups: 10
     ensemble-folds: 8
     scale-inputs: true
 
-model-save-path: null
+# model:
+#   class: 'BOW.Linear_ensemble_sgd'
+#   args:
+#     vectorizer-type: 'tfidf'
+#     vectorizer-max-features: 10000
+#     vectorizer-ngrams: 
+#       - 1 #min
+#       - 1 #max
+#     clf-penalty: 'none'
+#     clf-max-iter: 10000
+#     clf-loss: 'log_loss'
+#     clf-early-stop: True
+#     ensemble-groups: 10
+#     ensemble-folds: 8
+#     scale-inputs: true
     
 
 preprocessing:
@@ -39,22 +54,3 @@ preprocessing:
   lemmatize: false
   force-lower-case: true
   core-words: null
-
-doe: "a deer, a female deer"
-ray: "a drop of golden sun"
-pi: 3.14159
-xmas: true
-french-hens: 3
-calling-birds:
-  - huey
-  - dewey
-  - louie
-  - fred
-xmas-fifth-day:
-  calling-birds: four
-  french-hens: 3
-  golden-rings: 5
-  partridges:
-    count: 1
-    location: "a pear tree"
-  turtle-doves: two

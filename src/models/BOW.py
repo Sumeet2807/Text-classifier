@@ -2,6 +2,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression as LR
+from sklearn.linear_model import SGDClassifier as SGD
+from sklearn.preprocessing import OneHotEncoder 
 from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 from sklearn.model_selection import cross_validate
@@ -9,6 +11,13 @@ from sklearn.pipeline import Pipeline
 from sklearn.base import TransformerMixin
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
+import time
+import pickle
+import yaml
+import os
+from models.base import Model
+
+
 
 
 class DenseTransformer(TransformerMixin):
@@ -73,7 +82,7 @@ class BOW_ensemble():
 
 
 
-class Linear_ensemble():
+class Linear_ensemble(Model):
     def __init__(self,params):
 
         if params['vectorizer-type'] == 'count':
@@ -98,6 +107,41 @@ class Linear_ensemble():
     
     def predict_proba(self,X):
         return self.ensemble.predict_proba(X)
+
+
+
+
+
+class Linear_ensemble_sgd():
+    def __init__(self,params):
+
+        if params['vectorizer-type'] == 'count':
+            vectorizer = CountVectorizer(max_features=params['vectorizer-max-features'],ngram_range=params['vectorizer-ngrams'])
+        elif params['vectorizer-type'] == 'tfidf':
+            vectorizer = TfidfVectorizer(max_features=params['vectorizer-max-features'],ngram_range=params['vectorizer-ngrams'])
+        else:
+            raise Exception('Unknown vectorizer type - %s' % params['vectorizer-type'])
+
+        clf = SGD(penalty=params['clf-penalty'], max_iter=params['clf-max-iter'], 
+                early_stopping=params['clf-early-stop'], loss=params['clf-loss'])
+        self.ensemble = BOW_ensemble(clf,vectorizer,params['scale-inputs'],params['ensemble-groups'],params['ensemble-folds'])
+        self.label_encoder = LabelEncoder()
+        self.OneHotEncoder = OneHotEncoder()
+
+
+    def fit(self,X,y):        
+        y = self.OneHotEncoder.fit_transform(y[...,np.newaxis])
+        print(y.shape)
+        return self.ensemble.fit(X,y)
+
+    def predict(self,X):
+        y_pred = self.ensemble.predict(X)
+        return self.OneHotEncoder.inverse_transform(y_pred)
+    
+    def predict_proba(self,X):
+        return self.ensemble.predict_proba(X)
+
+    
 
 
 
