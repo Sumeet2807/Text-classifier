@@ -2,6 +2,8 @@ import time, yaml, pickle, os
 
 class Model():
 
+    def __init__(self, params):
+        pass
 
     def fit(self,X,y):
         raise NotImplementedError
@@ -26,3 +28,6 @@ class Model():
             pickle.dump(self,pkl_file)
         with open(yaml_filename, 'w+') as yaml_file:
             yaml.dump(config, yaml_file, allow_unicode=True, default_flow_style=False)
+
+    def report_metrics(self):
+        pass

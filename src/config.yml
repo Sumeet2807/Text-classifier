@@ -1,12 +1,15 @@
 ---
 data:
   train:
-    source: 'csv'
+    source: 'io.Delimited_file'
+    text-column: '3'
+    label-column: '2'
     args:
       filepath: '../data/twitter_training.csv'
       seperator: ','
-    text-column: 3
-    label-column: 2
+      shuffle: true
+      fraction: 0.01
+      remove-null-text: true
   test: null
     # source:
     #   - 'CSV'
@@ -15,7 +18,7 @@ data:
     # text-column: null
     # label-column: null
 model:
-  class: 'BOW.Linear_ensemble'
+  class: 'bow.Linear_ensemble'
   save-dir: '../export/'
   args:
     vectorizer-type: 'tfidf'
