@@ -1,7 +1,7 @@
 ---
 data:
   train:
-    source: 'io.Delimited_file'
+    source-class: 'io.Delimited_file'
     text-column: '3'
     label-column: '2'
     args:
@@ -10,13 +10,18 @@ data:
       shuffle: true
       fraction: 0.01
       remove-null-text: true
-  test: null
-    # source:
-    #   - 'CSV'
-    #   - 'filepath'
-    #   - ','
-    # text-column: null
-    # label-column: null
+
+  test: 
+    source-class: 'io.Delimited_file'
+    text-column: '3'
+    label-column: '2'
+    args:
+      filepath: '../data/twitter_training.csv'
+      seperator: ','
+      shuffle: true
+      fraction: 0.01
+      remove-null-text: true
+
 model:
   class: 'bow.Linear_ensemble'
   save-dir: '../export/'

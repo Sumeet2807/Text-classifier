@@ -34,13 +34,13 @@ class Delimited_file():
         y = None
         if category_column:
             df = df[~df[category_column].isnull()]
-            y = df[category_column]
+            y = df[category_column].to_numpy()
 
         X = df[text_column]
         if text_preprocessing is not None:
             X = X.apply(text_preprocessing)  
 
-        return X.to_numpy(), y.to_numpy()
+        return X.to_numpy(), y
 
     def write(self,X, y ,text_column, category_column,args):
 
@@ -49,12 +49,11 @@ class Delimited_file():
 
 
 
-def get_datahandler_instance(data_dict):
-    name = data_dict['source']
+def get_datahandler_class(name):
     name = 'utils.' + name
     components = name.split('.')
     mod = __import__(components[0])
     for comp in components[1:]:
         mod = getattr(mod, comp)
 
-    return mod()
+    return mod
