@@ -1,24 +1,22 @@
 ---
 data:
   read:
-    source-class: 'io.Delimited_file'
+    source-class: 'flat.Delimited_file'
     text-column: '3'
+    shuffle: true
+    fraction: 0.01
+    remove-null-text: true
     args:
       filepath: '../data/twitter_training.csv'
       seperator: ','
-      shuffle: true
-      fraction: 0.01
-      remove-null-text: true
   
   write:
-    source-class: 'io.Delimited_file'
+    source-class: 'flat.Delimited_file'
     text-column: '3'
+    label-column: '2'
     args:
       filepath: '../data/twitter_pred.csv'
       seperator: ','
-      shuffle: true
-      fraction: 0.01
-      remove-null-text: true
 
 model:
   yml-path: '../export/1668670743.yml'
