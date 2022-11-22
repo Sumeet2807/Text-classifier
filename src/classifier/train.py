@@ -22,7 +22,11 @@ model = get_model_class(model_config['class'])(model_config['args'])
 
 print("\n\n****** Loading training and test data ******")
 
-_,X_train,y_train = get_data_from_config(train_data_config)
+# train_data_handler = get_datahandler_class(train_data_config['source-class'])()
+# X_train,y_train = train_data_handler.read(train_data_config['text-column'],train_data_config['args'],
+#                                         train_data_config['label-column'],text_preprocessing=preprocessor)
+
+_,X_train,y_train = get_data_from_config(train_data_config,preprocessor)
 
 
 print('\n\n****** Training model - %s ******' % model_config['class'])
@@ -31,7 +35,10 @@ model.report_metrics()
 
 if 'test' in config['data']:
     test_data_config = config['data']['test']
-    _,X_test,y_test = get_data_from_config(test_data_config)
+    # test_data_handler = get_datahandler_class(test_data_config['source-class'])()
+    # X_test,y_test = test_data_handler.read(test_data_config['text-column'],test_data_config['args'],
+    #                                         test_data_config['label-column'],text_preprocessing=preprocessor)
+    _,X_test,y_test = get_data_from_config(test_data_config,preprocessor)
 
     print('\n\n****** Testing model ******')
     y_pred = model.predict(X_test)
