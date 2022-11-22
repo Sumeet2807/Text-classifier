@@ -16,7 +16,7 @@ def get_data_from_config(data_config, preprocessor=None):
         
     X = df[data_config['text-column']]
     if preprocessor is not None:
-        X_train = X_train.apply(preprocessor)
+        X = X.apply(preprocessor)
      
 
     return df, X.to_numpy(), y
