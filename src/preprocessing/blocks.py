@@ -6,6 +6,8 @@ import nltk
 import re
 
 nltk.download('wordnet')
+nltk.download('omw-1.4')
+
 
 class Text_reducer():
     def __init__(self,core_words=None,remove_garbage=True,remove_numbers=True):

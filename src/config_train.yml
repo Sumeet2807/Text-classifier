@@ -22,21 +22,37 @@ data:
       filepath: '../data/twitter_training.csv'
       seperator: ','
 
-model:
-  class: 'bow.Linear_ensemble'
-  save-dir: '../export/'
+
+
+preprocessing:
+  class: 'vanilla.Processor'
   args:
-    vectorizer-type: 'tfidf'
-    vectorizer-max-features: 10000
-    vectorizer-ngrams: 
-      - 1 #min
-      - 1 #max
-    clf-penalty: 'none'
-    clf-max-iter: 10000
-    clf-solver: 'lbfgs'
-    ensemble-groups: 10
-    ensemble-folds: 8
-    scale-inputs: true
+    remove-garbage-words: true
+    remove-numbers: true
+    remove-stopwords: false
+    lemmatize: false
+    force-lower-case: true
+    core-words: null
+
+
+
+
+
+# model:
+#   class: 'bow.Linear_ensemble'
+#   save-dir: '../export/'
+#   args:
+#     vectorizer-type: 'tfidf'
+#     vectorizer-max-features: 10000
+#     vectorizer-ngrams: 
+#       - 1 #min
+#       - 1 #max
+#     clf-penalty: 'none'
+#     clf-max-iter: 10000
+#     clf-solver: 'lbfgs'
+#     ensemble-groups: 10
+#     ensemble-folds: 8
+#     scale-inputs: true
 
 # model:
 #   class: 'BOW.Linear_ensemble_sgd'
@@ -71,13 +87,3 @@ model:
     batch-size: 32
     validation-to-train-ratio: 0.1
     
-
-preprocessing:
-  class: 'vanilla.Processor'
-  args:
-    remove-garbage-words: true
-    remove-numbers: true
-    remove-stopwords: false
-    lemmatize: false
-    force-lower-case: true
-    core-words: null

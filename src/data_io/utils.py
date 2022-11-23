@@ -1,6 +1,3 @@
-
-
-
 def get_datahandler_class(name):
     name = 'data_io.' + name
     components = name.split('.')

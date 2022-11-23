@@ -1,6 +1,3 @@
-import pandas as pd
-
-
 class Base_file():
 
     def read(self,args):
