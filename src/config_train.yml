@@ -53,6 +53,23 @@ model:
 #     ensemble-groups: 10
 #     ensemble-folds: 8
 #     scale-inputs: true
+
+model:
+  class: 'rnn.BLSTM'
+  save-dir: '../export/'
+  args:
+    vectorizer-max-vocab-size: 20000
+    max-epochs: 200
+    early-stop-patience: 5
+    recurrent-architecture:
+      - 8
+    dense-architecture:
+      - 8
+    embedding-size: 8
+    learning-rate: 0.0005
+    dropout-rate: 0.2
+    batch-size: 32
+    validation-to-train-ratio: 0.1
     
 
 preprocessing:
