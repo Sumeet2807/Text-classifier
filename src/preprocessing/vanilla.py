@@ -1,7 +1,8 @@
 import preprocessing.blocks as blocks
+import preprocessing.base as base
 
 
-class Text_preprocessor_from_dict():
+class Processor(base.Preprocessor):
     def __init__(self,preprocess_dict):
 
         core_words = preprocess_dict['core-words']

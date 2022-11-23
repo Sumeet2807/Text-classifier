@@ -3,7 +3,7 @@ from data_io.utils import get_datahandler_class
 
 
 def get_data_from_config(data_config, preprocessor=None):
-    df = get_datahandler_class(data_config['source-class'])().read(data_config['args'])
+    df = get_datahandler_class(data_config['class'])().read(data_config['args'])
     if data_config['shuffle'] or (data_config['fraction']<1):
         df = df.sample(frac=data_config['fraction'])
     if data_config['remove-null-text']:

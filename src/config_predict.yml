@@ -1,7 +1,7 @@
 ---
 data:
   read:
-    source-class: 'flat.Delimited_file'
+    class: 'flat.Delimited_file'
     text-column: '3'
     shuffle: true
     fraction: 0.01
@@ -11,12 +11,11 @@ data:
       seperator: ','
   
   write:
-    source-class: 'flat.Delimited_file'
-    text-column: '3'
-    label-column: '2'
+    class: 'flat.Delimited_file'
+    label-column: '12'
     args:
       filepath: '../data/twitter_pred.csv'
       seperator: ','
 
 model:
-  yml-path: '../export/1668670743.yml'
+  yml-path: '../export/1669161026.yml'

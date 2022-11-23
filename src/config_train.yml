@@ -1,7 +1,7 @@
 ---
 data:
   train:
-    source-class: 'flat.Delimited_file'
+    class: 'flat.Delimited_file'
     text-column: '3'
     label-column: '2'
     shuffle: true
@@ -12,7 +12,7 @@ data:
       seperator: ','
 
   test: 
-    source-class: 'flat.Delimited_file'
+    class: 'flat.Delimited_file'
     text-column: '3'
     label-column: '2'
     shuffle: true
@@ -56,9 +56,11 @@ model:
     
 
 preprocessing:
-  remove-garbage-words: true
-  remove-numbers: true
-  remove-stopwords: false
-  lemmatize: false
-  force-lower-case: true
-  core-words: null
+  class: 'vanilla.Processor'
+  args:
+    remove-garbage-words: true
+    remove-numbers: true
+    remove-stopwords: false
+    lemmatize: false
+    force-lower-case: true
+    core-words: null
