@@ -5,6 +5,7 @@ from utils import get_data_from_config
 import yaml
 from sklearn.metrics import classification_report as cr
 import sys
+import os
 
 if len(sys.argv) < 2:
     raise Exception('A configuration yaml needs to supplied as argument')
@@ -14,7 +15,8 @@ with open(str(sys.argv[1]), "r") as f:
 
 data_config = config['data']
 
-with open(config['model']['yml-path'], "r") as f:
+yaml_filename = os.path.join(config['model']['path'],'specs' + '.yml')
+with open(yaml_filename, "r") as f:
     model_yml = yaml.safe_load(f)
 
 
@@ -24,7 +26,7 @@ model_config = model_yml['model']
 preprocessor = get_preprocessor_class(preprocess_config['class'])(preprocess_config['args'])
 print("\n\n****** Loading model ******")
 
-model = get_model_class(model_config['class'])(model_config['args']).load(config['model']['yml-path'])
+model = get_model_class(model_config['class'])(model_config['args']).load(model_config['saved-object'])
 print("\n\n****** Loading data from source******")
 
 df,X,_ = get_data_from_config(data_config['read'])

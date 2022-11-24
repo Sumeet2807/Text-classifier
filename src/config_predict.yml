@@ -18,4 +18,4 @@ data:
       seperator: ','
 
 model:
-  yml-path: '../export/1669161026.yml'
+  path: '../export/1669250183'

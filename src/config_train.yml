@@ -73,9 +73,10 @@ preprocessing:
 model:
   class: 'rnn.BLSTM'
   save-dir: '../export/'
+  # save-dir: null
   args:
     vectorizer-max-vocab-size: 20000
-    max-epochs: 200
+    max-epochs: 1
     early-stop-patience: 5
     recurrent-architecture:
       - 8

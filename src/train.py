@@ -4,6 +4,7 @@ import yaml
 from sklearn.metrics import classification_report as cr
 from utils import get_data_from_config
 import os
+import time
 import sys
 
 if len(sys.argv) < 2:
@@ -39,9 +40,14 @@ if 'test' in data_config:
     y_pred = model.predict(X_test)
     print(cr(y_test,y_pred, zero_division=0))
 
-print('\n\n****** Saving model ******')
-
-if not os.path.exists(model_config['save-dir']):
-    os.makedirs(model_config['save-dir'])
-
-model.save(model_config['save-dir'],config)
+if model_config['save-dir'] is not None:
+    print('\n\n****** Saving model ******')
+    save_folder = os.path.join(model_config['save-dir'],str(int(time.time())))
+    os.makedirs(save_folder,exist_ok=True)
+    save_object_name = os.path.join(save_folder,'model')
+    save_object_name = model.save(save_object_name)
+    model_config['saved-object'] = save_object_name
+    yaml_filename = os.path.join(save_folder,'specs' + '.yml')
+    with open(yaml_filename, 'w+') as yaml_file:
+        yaml.dump(config, yaml_file, allow_unicode=True, default_flow_style=False)
+    print('model saved at - %s' % save_folder)

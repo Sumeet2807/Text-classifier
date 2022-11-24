@@ -2,7 +2,8 @@ import numpy as np
 import tensorflow as tf
 from models.base import Model
 from sklearn.preprocessing import LabelEncoder
-
+import os
+import pickle
 
 def bilstm_classifier(encoder, embedding_size=32,hidden_architecture=[32],dense_architecture=[64],num_classes=2,dropout_rate=0.2):
 #input is a tensor of strings
@@ -37,8 +38,7 @@ def bilstm_classifier(encoder, embedding_size=32,hidden_architecture=[32],dense_
 class BLSTM(Model):
     def __init__(self, args):
 
-        self.vectorizer = tf.keras.layers.TextVectorization(
-                            max_tokens=args['vectorizer-max-vocab-size'])
+        self.max_vocab_size = args['vectorizer-max-vocab-size']
         self.epochs = args['max-epochs']
         self.patience = args['early-stop-patience']
         self.harch = args['recurrent-architecture']
@@ -77,9 +77,11 @@ class BLSTM(Model):
         dset2 = tf.data.Dataset.from_tensor_slices(y_val.astype(int))
         dset_val = tf.data.Dataset.zip((dset1, dset2)).batch(self.batch_size)
 
-        self.vectorizer.adapt(dset_train.map(lambda text, label: text))
+        vectorizer = tf.keras.layers.TextVectorization(
+                            max_tokens = self.max_vocab_size)
+        vectorizer.adapt(dset_train.map(lambda text, label: text))
 
-        self.net = bilstm_classifier(encoder=self.vectorizer,
+        self.net = bilstm_classifier(encoder=vectorizer,
                     embedding_size=self.emb_size,hidden_architecture=self.harch,
                         dense_architecture=self.darch,num_classes=num_classes,dropout_rate=self.dropout)
         # class_weight = None
@@ -94,6 +96,7 @@ class BLSTM(Model):
                         callbacks=[earlystop],
                         # class_weight=class_weight,
                         validation_data=dset_val)
+        self.history = dict(history.history)
 
 
     def predict(self,X):
@@ -103,7 +106,34 @@ class BLSTM(Model):
 
     
     def predict_proba(self,X):
-        raise NotImplementedError
+        dset = tf.data.Dataset.from_tensor_slices(X).batch(self.batch_size)
+        y_pred = self.net.predict(dset)
+        return y_pred
 
     def report_metrics(self):
-        pass
+        for key in list(self.history.keys()):
+            print(str(key) + ' - ' + str(self.history[key][-1]))
+
+
+    def load(self,object_name):
+        net_path = os.path.join(object_name,'net')
+        wrapper_path = os.path.join(object_name,'wrapper')
+        with open(wrapper_path, 'rb') as pkl_file:
+            model = pickle.load(pkl_file)
+        model.net = tf.keras.models.load_model(net_path)
+        return model
+
+    def save(self,object_name):
+        if not os.path.exists(object_name):
+            os.makedirs(object_name)
+        net_path = os.path.join(object_name,'net')
+        wrapper_path = os.path.join(object_name,'wrapper')
+        tf.keras.models.save_model(self.net,net_path)
+        temp_net = self.net
+        self.net = None           
+        with open(wrapper_path, 'wb') as pkl_file:
+            pickle.dump(self,pkl_file)
+        self.net = temp_net
+
+        return object_name
+
