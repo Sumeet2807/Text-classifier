@@ -1,26 +1,40 @@
 ---
+# data:
+#   train:
+#     class: 'flat.Delimited_file'
+#     text-column: '3'
+#     label-column: '2'
+#     shuffle: true
+#     fraction: 0.01
+#     remove-null-text: true
+#     args:
+#       filepath: '../data/twitter_training.csv'
+#       seperator: ','
+
+  # test: 
+  #   class: 'flat.Delimited_file'
+  #   text-column: '3'
+  #   label-column: '2'
+  #   shuffle: true
+  #   fraction: 0.01
+  #   remove-null-text: true
+  #   args:
+  #     filepath: '../data/twitter_training.csv'
+  #     seperator: ','
+
 data:
   train:
     class: 'flat.Delimited_file'
-    text-column: '3'
-    label-column: '2'
+    text-column: 'text_cleaned'
+    label-column: 'target'
     shuffle: true
-    fraction: 0.01
+    fraction: 0.1
     remove-null-text: true
     args:
-      filepath: '../data/twitter_training.csv'
-      seperator: ','
+      filepath: '../data/20newsgroup_preprocessed.csv'
+      seperator: ';'
 
-  test: 
-    class: 'flat.Delimited_file'
-    text-column: '3'
-    label-column: '2'
-    shuffle: true
-    fraction: 0.01
-    remove-null-text: true
-    args:
-      filepath: '../data/twitter_training.csv'
-      seperator: ','
+
 
 
 
@@ -54,37 +68,38 @@ preprocessing:
 #     ensemble-folds: 8
 #     scale-inputs: true
 
-# model:
-#   class: 'BOW.Linear_ensemble_sgd'
-#   args:
-#     vectorizer-type: 'tfidf'
-#     vectorizer-max-features: 10000
-#     vectorizer-ngrams: 
-#       - 1 #min
-#       - 1 #max
-#     clf-penalty: 'none'
-#     clf-max-iter: 10000
-#     clf-loss: 'log_loss'
-#     clf-early-stop: True
-#     ensemble-groups: 10
-#     ensemble-folds: 8
-#     scale-inputs: true
-
 model:
-  class: 'rnn.BLSTM'
-  save-dir: '../export/'
-  # save-dir: null
+  class: 'bow.Linear_ensemble_sgd'
+  save-dir: null
   args:
-    vectorizer-max-vocab-size: 20000
-    max-epochs: 1
-    early-stop-patience: 5
-    recurrent-architecture:
-      - 8
-    dense-architecture:
-      - 8
-    embedding-size: 8
-    learning-rate: 0.0005
-    dropout-rate: 0.2
-    batch-size: 32
-    validation-to-train-ratio: 0.1
+    vectorizer-type: 'tfidf'
+    vectorizer-max-features: 10000
+    vectorizer-ngrams: 
+      - 1 #min
+      - 1 #max
+    clf-penalty: 'none'
+    clf-max-iter: 1000
+    clf-loss: 'log_loss'
+    clf-early-stop: True
+    ensemble-groups: 3
+    ensemble-folds: 5
+    scale-inputs: true
+
+# model:
+#   class: 'rnn.BLSTM'
+#   # save-dir: '../export/'
+#   save-dir: null
+#   args:
+#     vectorizer-max-vocab-size: 20000
+#     max-epochs: 100
+#     early-stop-patience: 5
+#     recurrent-architecture:
+#       - 8
+#     dense-architecture:
+#       - 8
+#     embedding-size: 8
+#     learning-rate: 0.001
+#     dropout-rate: 0.2
+#     batch-size: 32
+#     validation-to-train-ratio: 0.1
     

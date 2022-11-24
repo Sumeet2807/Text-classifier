@@ -119,7 +119,7 @@ class Linear_ensemble(Model):
 
 
 
-class Linear_ensemble_sgd():
+class Linear_ensemble_sgd(Model):
     def __init__(self,params):
 
         if params['vectorizer-type'] == 'count':
@@ -136,10 +136,9 @@ class Linear_ensemble_sgd():
         self.OneHotEncoder = OneHotEncoder()
 
 
-    def fit(self,X,y):        
-        y = self.OneHotEncoder.fit_transform(y[...,np.newaxis])
-        print(y.shape)
-        return self.ensemble.fit(X,y)
+    def fit(self,X,y):   
+        y = self.label_encoder.fit_transform(y)
+        self.precision, self.recall =  self.ensemble.fit(X,y)
 
     def predict(self,X):
         y_pred = self.ensemble.predict(X)
@@ -147,6 +146,11 @@ class Linear_ensemble_sgd():
     
     def predict_proba(self,X):
         return self.ensemble.predict_proba(X)
+
+    def report_metrics(self):
+        print('training precision - %s\ntraining recall - %s' % (self.precision,self.recall))
+
+
 
     
 
