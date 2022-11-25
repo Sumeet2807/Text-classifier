@@ -14,8 +14,13 @@ class Delimited_file(Base_file):
         return self.dataframe
 
     def write(self,dataframe,args):
+        
+        sep = args['seperator']
+        if sep == 'tab':
+            sep = '\t'
 
-        dataframe.to_csv(args['filepath'],sep=args['seperator'])
+        dataframe.to_csv(args['filepath'],sep=sep,index=False)
+
 
 
 
