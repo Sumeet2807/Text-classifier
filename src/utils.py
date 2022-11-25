@@ -1,4 +1,6 @@
 from data_io.utils import get_datahandler_class
+import numpy as np
+import pandas as pd
 
 
 
@@ -20,3 +22,30 @@ def get_data_from_config(data_config, preprocessor=None):
      
 
     return df, X.to_numpy(), y
+
+
+
+
+def augment_dataset(df, text_col, class_col, samples_to_add, max_samples_to_combine):
+    df_pos = df[df[class_col] == 1]
+    df_neg = df[df[class_col] == 0]
+
+    new_samples = []
+    for i in np.random.randint(0,2,size=samples_to_add):
+        text = ''       
+        sents = np.random.randint(2,max_samples_to_combine+1)
+        if i:
+            pos_index = np.random.randint(len(df_pos))
+            text = df_pos.iloc[pos_index][text_col]
+            rest_indices = np.random.randint(len(df),size=sents-1)
+            for index in rest_indices:
+                text = text + '\n' + df.iloc[index][text_col]
+        else: 
+            indices = np.random.randint(len(df_neg),size=sents)
+            for index in indices:
+                text = text + '\n' + df_neg.iloc[index][text_col]
+
+        new_samples.append([text,i])
+    df_new = pd.DataFrame(new_samples,columns=[text_col,class_col])
+    df_aug = pd.concat([df[[text_col,class_col]],df_new],axis=0)
+    return df_aug
