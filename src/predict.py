@@ -29,7 +29,7 @@ print("\n\n****** Loading model ******")
 model = get_model_class(model_config['class'])(model_config['args']).load(model_config['saved-object'])
 print("\n\n****** Loading data from source******")
 
-df,X,_ = get_data_from_config(data_config['read'])
+df,X,_ = get_data_from_config(data_config['read'],preprocessor)
 
 print("\n\n****** Predicting ******")
 y_pred = model.predict(X)
