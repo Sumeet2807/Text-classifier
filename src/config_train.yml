@@ -28,7 +28,7 @@ data:
     text-column: 'text_cleaned'
     label-column: 'target'
     shuffle: true
-    fraction: 0.1
+    fraction: 0.005
     remove-null-text: true
     args:
       filepath: '../data/20newsgroup_preprocessed.csv'
@@ -68,22 +68,22 @@ preprocessing:
 #     ensemble-folds: 8
 #     scale-inputs: true
 
-model:
-  class: 'bow.Linear_ensemble_sgd'
-  save-dir: null
-  args:
-    vectorizer-type: 'tfidf'
-    vectorizer-max-features: 10000
-    vectorizer-ngrams: 
-      - 1 #min
-      - 1 #max
-    clf-penalty: 'none'
-    clf-max-iter: 1000
-    clf-loss: 'log_loss'
-    clf-early-stop: True
-    ensemble-groups: 3
-    ensemble-folds: 5
-    scale-inputs: true
+# model:
+#   class: 'bow.Linear_ensemble_sgd'
+#   save-dir: null
+#   args:
+#     vectorizer-type: 'tfidf'
+#     vectorizer-max-features: 10000
+#     vectorizer-ngrams: 
+#       - 1 #min
+#       - 1 #max
+#     clf-penalty: 'none'
+#     clf-max-iter: 1000
+#     clf-loss: 'log_loss'
+#     clf-early-stop: True
+#     ensemble-groups: 3
+#     ensemble-folds: 5
+#     scale-inputs: true
 
 # model:
 #   class: 'rnn.BLSTM'
@@ -102,4 +102,16 @@ model:
 #     dropout-rate: 0.2
 #     batch-size: 32
 #     validation-to-train-ratio: 0.1
-    
+
+model:
+  class: 'bert.Dense_top'
+  # save-dir: '../export/'
+  save-dir: null
+  args:
+    max-epochs: 1
+    early-stop-patience: 5
+    learning-rate: 0.001
+    batch-size: 32
+    validation-to-train-ratio: 0.1
+    dense-top-size: 8
+    finetune-whole-bert: false
