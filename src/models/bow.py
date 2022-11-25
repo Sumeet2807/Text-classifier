@@ -133,7 +133,6 @@ class Linear_ensemble_sgd(Model):
                 early_stopping=params['clf-early-stop'], loss=params['clf-loss'])
         self.ensemble = BOW_ensemble(clf,vectorizer,params['scale-inputs'],params['ensemble-groups'],params['ensemble-folds'])
         self.label_encoder = LabelEncoder()
-        self.OneHotEncoder = OneHotEncoder()
 
 
     def fit(self,X,y):   
@@ -142,7 +141,7 @@ class Linear_ensemble_sgd(Model):
 
     def predict(self,X):
         y_pred = self.ensemble.predict(X)
-        return self.OneHotEncoder.inverse_transform(y_pred)
+        return self.label_encoder.inverse_transform(y_pred)
     
     def predict_proba(self,X):
         return self.ensemble.predict_proba(X)
