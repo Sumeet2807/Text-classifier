@@ -1,0 +1,24 @@
+---
+##### data source and destination definition #####
+data:
+  read:      #definitions for the data source
+    class: 'flat.Delimited_file'      # - data handling class. Refers to the class responsible for fetching/writing the data. Custom data handling classes are defined are stored in src/data_io/
+    text-column: '3'      #column name of the text in the data
+    shuffle: true     #Whether to shuffle the data or not
+    fraction: 0.01      #Fraction of the data to use - in case complete data cant be used
+    remove-null-text: true      #Remove null/blank text from corpus
+    args:     #Custom arguments required by your data handling class
+      filepath: '../data/twitter_training.csv'
+      seperator: ','
+  
+  write:        #definitions for the prediction destination
+    class: 'flat.Delimited_file'
+    label-column: '12'        #column name for the predictions to be added to the data
+    args:
+      filepath: '../data/twitter_pred.csv'
+      seperator: ','
+
+
+##### saved model to load #####
+model:
+  path: '../export/1669250183'          #path to the saved model folder that was created by train.py
