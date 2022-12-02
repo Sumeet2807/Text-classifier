@@ -23,16 +23,25 @@ example run command - python train.py <your_training_config_yml_file>
 
 Use this python script to run a pretrained model on a corpus. All the information about corpus source and the saved model to use will supplied through a Yaml file.
 
-example run command - python predict.py <your_evaluation_config_yml_file>
+example run command - python predict.py <your_prediction_config_yml_file>
 
 
 ## Yaml file structure:-
+
+This utility uses yaml files to supply training and prediction configurations
 
 1.) Training Yaml - 
 
 Training Yaml file consists of 3 mandatory sections - Data, Preprocessing, Model. It contains all the information about the data source to use, the preprocessing steps to follow and finally the type of model to use with its relevant hyperparameters.
 
-Please refer to examples/sample_train_config.yml for detailed information on how to create a yml.
+Please refer to examples/config_train.yml for detailed information on yml parameters.
+
+
+1.) Prediction Yaml - 
+
+Prediction Yaml file consists of 2 mandatory sections - Data, Model. It contains all the information about the data source to use and the saved model to use for predictions
+
+Please refer to examples/config_predict.yml for detailed information on yml parameters.
 
 
 

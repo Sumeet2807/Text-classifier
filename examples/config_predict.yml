@@ -1,4 +1,9 @@
 ---
+##### All parameters are MANDATORY to specify unless labelled - 'OPTIONAL' #####
+##### All directory paths should be absolute, unless specified otherwise #####
+
+
+
 ##### data source and destination definition #####
 data:
   read:      #definitions for the data source
@@ -21,4 +26,4 @@ data:
 
 ##### saved model to load #####
 model:
-  path: '../export/1669250183'          #path to the saved model folder that was created by train.py
+  path: '../export/1669250183'          # #ABSOLUTE path to the saved model folder that was created by train.py. PLEASE CHANGE OR MODIFY PER YOUR MACHINE BEFORE RUNNING !!!

@@ -1,29 +1,30 @@
 ---
-##### All parameters are MANDATORY to specify unless labelled - 'OPTIONAL'
+##### All parameters are MANDATORY to specify unless labelled - 'OPTIONAL' #####
+##### All directory paths should be absolute, unless specified otherwise #####
 
 ##### Data Source ####
 data:
   train:      #definitions for the training data source
     class: 'flat.Delimited_file'      # - data handling class. Refers to the class responsible for fetching/writing the data. Custom data handling classes are defined are stored in src/data_io/
-    text-column: '3'      #column name of the text in the data
-    label-column: '2'     #column name for labels in the data
+    text-column: 'Message'      #column name of the text in the data
+    label-column: 'Category'     #column name for labels in the data
     shuffle: true     #Whether to shuffle the data or not
-    fraction: 0.01      #Fraction of the data to use - in case complete data cant be used
+    fraction: 1      #Fraction of the data to use - in case complete data cant be used
     remove-null-text: true      #Remove null/blank text from training
     args:     #Custom arguments required by your data handling class
-      filepath: '../data/twitter_training.csv'
-      seperator: ','
+      filepath: '../examples/data/spam_data.csv' #ABSOLUTE path for the data file. PLEASE CHANGE OR MODIFY PER YOUR MACHINE BEFORE RUNNING !!!
+      seperator: ',' #Seperator used in the delimited file
 
-  test: #OPTIONAL -  refers to data source for validation post training.
-    class: 'flat.Delimited_file'
-    text-column: '3'
-    label-column: '2'
-    shuffle: true
-    fraction: 0.01
-    remove-null-text: true
-    args:
-      filepath: '../data/twitter_training.csv'
-      seperator: ','
+  # test: #OPTIONAL -  refers to data source for validation post training.
+  #   class: 'flat.Delimited_file'
+  #   text-column: '3'
+  #   label-column: '2'
+  #   shuffle: true
+  #   fraction: 0.01
+  #   remove-null-text: true
+  #   args:
+  #     filepath: '../data/twitter_training.csv'
+  #     seperator: ','
 
 
 ##### Preprocessor #####
@@ -33,8 +34,8 @@ preprocessing:        #definitions for the training data source
   args:       #Custom arguments required by the preprocessing class
     remove-garbage-words: true
     remove-numbers: true
-    remove-stopwords: false
-    lemmatize: false
+    remove-stopwords: true
+    lemmatize: true
     force-lower-case: true
     core-words: null
 
@@ -43,8 +44,8 @@ preprocessing:        #definitions for the training data source
 ##### Model ######
 
 model:        
-  class: 'bow.Linear_ensemble' #model class. Custom model classes defined are stored in src/models/
-  save-dir: '../export/'
+  class: 'bow.Linear_ensemble'        #Model class. Custom model classes defined are stored in src/models/
+  save-dir: '../export/linear_ensemble'        # #ABSOLUTE path where the model will be saved for this run. PLEASE CHANGE OR MODIFY PER YOUR MACHINE BEFORE RUNNING !!!
   args:
     vectorizer-type: 'tfidf'
     vectorizer-max-features: 10000
@@ -54,7 +55,7 @@ model:
     clf-penalty: 'none'
     clf-max-iter: 10000
     clf-solver: 'lbfgs'
-    ensemble-groups: 10
+    ensemble-groups: 1
     ensemble-folds: 8
     scale-inputs: true
 
