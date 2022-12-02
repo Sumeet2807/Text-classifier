@@ -44,6 +44,19 @@ Prediction Yaml file consists of 2 mandatory sections - Data, Model. It contains
 Please refer to examples/config_predict.yml for detailed information on yml parameters.
 
 
+## Supported models out of the box:-
+
+Model Classes - 
+1.) Bag-of-words linear ensemble - bow.Linear_ensemble
+2.) Bag-of-words linear ensemble sgd (for larger datasets) - bow.Linear_ensemble_sgd
+3.) Bidirectional LSTM - rnn.BLSTM
+4.) Bert with a dense top - bert.Dense_top
+
+## How to integrate your own custom models and other components ?
+
+Coming soon...
+
+
 
 
 

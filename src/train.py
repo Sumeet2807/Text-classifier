@@ -26,7 +26,7 @@ print("\n\n****** Loading training data ******")
 
 _,X_train,y_train = get_data_from_config(data_config['train'],preprocessor)
 
-
+print('Loaded %s datapoints' %len(X_train))
 print('\n\n****** Training model - %s ******' % model_config['class'])
 model.fit(X_train,y_train)
 model.report_metrics()
@@ -37,6 +37,7 @@ if 'test' in data_config:
     _,X_test,y_test = get_data_from_config(test_data_config,preprocessor)
 
     print('\n\n****** Testing model ******')
+    print('Loaded %s datapoints to test' %len(X_test))
     y_pred = model.predict(X_test)
     print(cr(y_test,y_pred, zero_division=0))
 

@@ -24,13 +24,13 @@ with open(yaml_filename, "r") as f:
 preprocess_config = model_yml['preprocessing']
 model_config = model_yml['model']
 preprocessor = get_preprocessor_class(preprocess_config['class'])(preprocess_config['args'])
-print("\n\n****** Loading model ******")
+print("\n\n****** Loading model - %s ******" % model_config['class'])
 
 model = get_model_class(model_config['class'])(model_config['args']).load(model_config['saved-object'])
 print("\n\n****** Loading data from source******")
 
 df,X,_ = get_data_from_config(data_config['read'],preprocessor)
-
+print('Loaded %s datapoints' %len(X))
 print("\n\n****** Predicting ******")
 y_pred = model.predict(X)
 
