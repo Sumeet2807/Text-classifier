@@ -15,7 +15,7 @@ There are two entrypoints that define the complete functionality of this utility
 
 Use this python script to train a text classification with an appropriate preprocessing and model. All the information about the corpus sources, the model and the preprocessing required will be supplied to this script through a Yaml file.
 
-example run command - python train.py <your_training_config_yml_file>
+Example run command - python src/train.py <your_training_config_yml_file>
 
 
 
@@ -23,7 +23,7 @@ example run command - python train.py <your_training_config_yml_file>
 
 Use this python script to run a pretrained model on a corpus. All the information about corpus source and the saved model to use will supplied through a Yaml file.
 
-example run command - python predict.py <your_prediction_config_yml_file>
+Example run command - python src/predict.py <your_prediction_config_yml_file>
 
 
 ## Yaml file structure:-
@@ -47,9 +47,13 @@ Please refer to examples/config_predict.yml for detailed information on yml para
 ## Supported models out of the box:-
 
 Model Classes - 
+
 1.) Bag-of-words linear ensemble - bow.Linear_ensemble
+
 2.) Bag-of-words linear ensemble sgd (for larger datasets) - bow.Linear_ensemble_sgd
+
 3.) Bidirectional LSTM - rnn.BLSTM
+
 4.) Bert with a dense top - bert.Dense_top
 
 ## How to integrate your own custom models and other components ?
