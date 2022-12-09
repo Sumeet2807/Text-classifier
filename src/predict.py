@@ -31,8 +31,23 @@ print("\n\n****** Loading data from source******")
 
 df,X,_ = get_data_from_config(data_config['read'],preprocessor)
 print('Loaded %s datapoints' %len(X))
-print("\n\n****** Predicting ******")
+
+if data_config['write']['null-text-dedicated-class'] is not None:
+    X_complete = X
+    y_complete = np.array([data_config['write']['null-text-dedicated-class']]*len(X))
+    non_null_indices = ~(X_complete=='')
+    X = X_complete[non_null_indices]
+
+
+print("\n\n****** Predicting******")
+if not len(X):
+    raise Exception('No datapoint supplied to predict. Check preprocessing and dedicated class for null text in the config')
 y_pred = model.predict(X)
+
+if data_config['write']['null-text-dedicated-class'] is not None:
+    X = X_complete
+    y_complete[non_null_indices] = y_pred
+    y_pred = y_complete
 
 if 'write' in config['data']:
     print("\n\n****** Writing predictions to destination******")
