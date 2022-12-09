@@ -6,6 +6,8 @@ import yaml
 from sklearn.metrics import classification_report as cr
 import sys
 import os
+import numpy as np
+
 
 if len(sys.argv) < 2:
     raise Exception('A configuration yaml needs to supplied as argument')
