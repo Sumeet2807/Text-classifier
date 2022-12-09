@@ -19,6 +19,7 @@ data:
   write:        #definitions for the prediction destination
     class: 'flat.Delimited_file'
     label-column: 'Predictions'        #column name for the predictions to be added to the data
+    null-text-dedicated-class: null      #replace with your preferred class for null text. Null text can happen due to certain preprocessing which will result in spurious predictions from the model. So you can set a predefined class for those text.    
     args:
       filepath: '../examples/data/spam_data_preds.csv'        #ABSOLUTE path for the data file. PLEASE CHANGE OR MODIFY PER YOUR MACHINE BEFORE RUNNING !!!
       seperator: ','
