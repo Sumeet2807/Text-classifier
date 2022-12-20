@@ -11,20 +11,21 @@ data:
     shuffle: true     #Whether to shuffle the data or not
     fraction: 1      #Fraction of the data to use - in case complete data cant be used
     remove-null-text: true      #Remove null/blank text from training
+    random-oversample: true     #Remedy for class imbalance through random oversampling
     args:       #Custom arguments required by your data handling class
-      filepath: '../examples/data/spam_data.csv'        #ABSOLUTE path for the data file. PLEASE CHANGE OR MODIFY PER YOUR MACHINE BEFORE RUNNING !!!
+      filepath: 'C:\Users\sainis10\Projects\roche-contracts-nlp\examples\sample_data\spam_data.csv'        #ABSOLUTE path for the data file. PLEASE CHANGE OR MODIFY PER YOUR MACHINE BEFORE RUNNING !!!
       seperator: ','        #Seperator used in the delimited file
 
-  # test: #OPTIONAL -  refers to data source for validation post training.
-  #   class: 'flat.Delimited_file'
-  #   text-column: '3'
-  #   label-column: '2'
-  #   shuffle: true
-  #   fraction: 0.01
-  #   remove-null-text: true
-  #   args:
-  #     filepath: '../data/twitter_training.csv'
-  #     seperator: ','
+  test: #OPTIONAL -  refers to data source for validation post training.
+    class: 'flat.Delimited_file'
+    text-column: 'Message'
+    label-column: 'Category'
+    shuffle: true
+    fraction: 0.5
+    remove-null-text: true
+    args:
+      filepath: 'C:\Users\sainis10\Projects\roche-contracts-nlp\examples\sample_data\spam_data.csv'
+      seperator: ','
 
 
 ##### Preprocessor #####
@@ -40,12 +41,11 @@ preprocessing:        #definitions for the training data source
     core-words: null
 
 
-
 ##### Model ######
 
 model:        
   class: 'bow.Linear_ensemble'        #Model class. Custom model classes defined are stored in src/models/
-  save-dir: '../export/linear_ensemble'        #ABSOLUTE path where the model will be saved for this run. PLEASE CHANGE OR MODIFY PER YOUR MACHINE BEFORE RUNNING !!!
+  save-dir: 'C:\Users\sainis10\Projects\roche-contracts-nlp\export\linear_ensemble'        #ABSOLUTE path where the model will be saved for this run. PLEASE CHANGE OR MODIFY PER YOUR MACHINE BEFORE RUNNING !!!
   args:
     vectorizer-type: 'tfidf'
     vectorizer-max-features: 10000
