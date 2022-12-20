@@ -19,10 +19,16 @@ def get_data_from_config(data_config, preprocessor=None):
     X = df[data_config['text-column']]
     if preprocessor is not None:
         X = X.apply(preprocessor)
-     
+        
+    X = X.to_numpy()
 
-    return df, X.to_numpy(), y
+    if 'random-oversample' in data_config and data_config['random-oversample']:
+        ros = RandomOverSampler(random_state=42)
+        X,y = ros.fit_resample(X[...,np.newaxis], y)
+        X = X[:,0]
 
+
+    return df, X, y
 
 
 
